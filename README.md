@@ -1,2 +1,3 @@
-# cellular_automata_population_python
-Something like cellular automata, used to simulate a populaiton gorwth. Written in Python.
+# Cellular Automata Population in Python
+
+This is a very simple script that simulates how a population grows in something that looks like cellular automata. It is ver simple. Written in Python3.
