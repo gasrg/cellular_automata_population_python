@@ -1,7 +1,9 @@
-import os
+import logging
 import random
-import sys
 import time
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 random.seed(2)
 
@@ -10,14 +12,17 @@ class CellularAutomata:
     def __init__(self):
         self.step = 0
         self.max_steps = 1000
-        self.sleep_time = 0.1  # Time to sleep between steps, in secs.
-        self.height = 40
-        self.width = 120
+        self.sleep_time = 0.01  # Time to sleep between steps, in secs.
+        self.height = 100
+        self.width = 100
         self.p_dying = 0.1  # probability of dying
         self.p_birth = 0.08  # Probability of getting born
         self.p_starving = 0.2  # Probability of getting born
         self.total_number_alive = 0
-        self.cells = [[1 if random.random() >= 0.9 else 0 for i in range(self.width)] for ii in range(self.height)]
+        self.cells = np.array(
+            [[1 if random.random() >= 0.9 else 0 for i in range(self.width)] for ii in range(self.height)]
+        )
+        self.count_alive = [np.count_nonzero(self.cells), ]
 
     def do_step(self):
         self.step += 1
@@ -47,26 +52,33 @@ class CellularAutomata:
 
                 if self.cells[r][c] == 1:
                     self.total_number_alive += 1
+        # Re-count the cells alive
+        self.count_alive.append(np.count_nonzero(self.cells))
 
-    def print_grid(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
-        output = ""
-        output += "Step: " + str(self.step) + "; "
-        output += "Total Alive: " + str(self.total_number_alive) + "\n"
-        for row in self.cells:
-            output += "".join(['X' if i == 1 else ' ' if i == 0 else "!" for i in row]) + "\n"
-        sys.stdout.write(output)
-        sys.stdout.flush()
-
-
-
-    def run(self):
-        self.print_grid()
+    def run(self, plot=False):
+        if plot:
+            plt.ion()
         while self.step <= self.max_steps:
             self.do_step()
-            self.print_grid()
+            if plot:
+                plt.cla()
+                plt.subplot(211)
+                plt.imshow(self.cells)
+                plt.title("Cells")
+                plt.subplot(212)
+                plt.plot(self.count_alive)
+                plt.ylabel("# Cells Alive")
+                plt.xlabel("Step #")
+                plt.pause(0.001)
+            logging.info("Alive = {} ({}%)".format(
+                self.count_alive[-1],
+                round(self.count_alive[-1] / self.width / self.height * 100, 0)
+            ))
             time.sleep(self.sleep_time)
 
 
-ca = CellularAutomata()
-ca.run()
+if __name__ == "__main__":
+    logging.getLogger().setLevel(logging.INFO)
+    plt.rcParams["figure.figsize"] = [5, 7]
+    ca = CellularAutomata()
+    ca.run(plot=True)
