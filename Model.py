@@ -1,7 +1,7 @@
-import random
-import time
-import sys
 import os
+import random
+import sys
+import time
 
 random.seed(2)
 
