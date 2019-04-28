@@ -42,9 +42,10 @@ class Validator():
 
     def print_errors(self):
         for t, (d, m) in enumerate(zip(self.data_population, self.model.count_alive)):
-            print("Step{}: data = {}, model * multiplier = {}; error = {}".format(
+            print("Step{}: data = {}, model * {} = {}; error = {}".format(
                 t,
                 d,
+                self.multiplier,
                 m * self.multiplier,
                 m * self.multiplier - d,
             ))
@@ -54,4 +55,4 @@ if __name__ == "__main__":
     plt.style.use(["bmh", "grayscale"])
     validator = Validator()
     validator.print_errors()
-    validator.plot_data_population()
+    # validator.plot_data_population()
