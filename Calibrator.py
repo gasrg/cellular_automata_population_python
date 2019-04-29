@@ -26,8 +26,8 @@ class Calibrator:
         print("Reading the Data file...")
         with open(os.path.join("Data", "POPTHM.csv")) as csv_file:
             self.data_population = (
-                                       [float(a[1]) for a in csv.reader(csv_file) if __test(a[1])]
-                                   )[-self.model.max_steps - 2:-1]
+                [float(a[1]) * 1000 for a in csv.reader(csv_file) if __test(a[1])]
+                        )[-self.model.max_steps - 2:-1]
         print("Starting opt...")
         guess_a = 200000
         guess_b = 10

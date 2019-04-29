@@ -1,3 +1,6 @@
+"""
+This file contains the model itself
+"""
 import logging
 import random
 import time
@@ -10,6 +13,7 @@ random.seed(2)
 
 class Model:
     def __init__(self):
+        """Initiate the model"""
         self.step = 0
         self.max_steps = 120  # As if it is 10 Years * 12 Months
         self.sleep_time = 0.01  # Time to sleep between steps, in secs.
@@ -24,9 +28,10 @@ class Model:
         self.count_alive = [np.count_nonzero(self.cells), ]
         self.population_a = 277019.6
         self.population_b = 10.7
-        self.population = [self.population_a + self.count_alive[0] * self.population_b]
+        self.population = [1000 * (self.population_a + self.count_alive[0] * self.population_b)]
 
     def do_step(self):
+        """Do one Step"""
         for r in range(self.height):
             for c in range(self.width):
                 number_of_neighbors = (self.cells[r-1][c] +
@@ -49,27 +54,35 @@ class Model:
         # Re-count the cells alive
         self.count_alive.append(np.count_nonzero(self.cells))
         self.population.append(
-            self.population_a + np.count_nonzero(self.cells) * self.population_b
+            1000 * (self.population_a + np.count_nonzero(self.cells) * self.population_b)
         )
 
     def run(self, plot=False):
+        """
+        Run the model. Loop run.
+        :param plot: Bool. Interactive plot?
+        """
         for i in range(self.max_steps):
             self.do_step()
             if plot:
-                plt.cla()
-                plt.subplot(211)
-                plt.imshow(self.cells)
-                plt.title("Cells")
-                plt.subplot(212)
-                plt.plot(self.count_alive)
-                plt.ylabel("# Cells Alive")
-                plt.xlabel("Step #")
-                plt.pause(0.01)
-                time.sleep(self.sleep_time)
+                self.plot()
             logging.info("Alive = {} ({}%)".format(
                 self.count_alive[-1],
                 round(self.count_alive[-1] / self.width / self.height * 100, 0)
             ))
+
+    def plot(self):
+        """Create interactive plot."""
+        plt.cla()
+        plt.subplot(211)
+        plt.imshow(self.cells)
+        plt.title("Cells")
+        plt.subplot(212)
+        plt.plot(self.count_alive)
+        plt.ylabel("# Cells Alive")
+        plt.xlabel("Step #")
+        plt.pause(0.01)
+        time.sleep(self.sleep_time)
 
 
 if __name__ == "__main__":
