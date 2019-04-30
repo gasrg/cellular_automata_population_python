@@ -56,13 +56,13 @@ class Calibrator:
                     self.history_a.append(best_a)
                     self.history_b.append(best_b)
                     self.history_lowest_error.append(lowest_error)
+                    print("error = {}: Population = {} + {} * count_alive".format(
+                        error,
+                        best_a,
+                        best_b
+                    ))
                 else:
                     no_move_count += 1
-            print("error = {}: Population = {} + {} * count_alive".format(
-                error,
-                best_a,
-                best_b
-            ))
         print("Done!")
 
     def plot_errors(self):
@@ -82,4 +82,3 @@ if __name__ == "__main__":
     c = Calibrator()
     c.plot_errors()
     plt.show()
-    input("Done. Press Anything to continue...")
