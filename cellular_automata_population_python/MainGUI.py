@@ -3,7 +3,7 @@ import logging
 import easygui
 import matplotlib.pyplot as plt
 
-from cellular_automata_population_python import Model, Validator, Calibrator
+from ..cellular_automata_population_python import Model, Validator, Calibrator
 
 
 class MainGUI:

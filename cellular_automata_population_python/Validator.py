@@ -4,7 +4,7 @@ import os
 
 import matplotlib.pyplot as plt
 
-from cellular_automata_population_python import Model
+from ..cellular_automata_population_python import Model
 
 
 class Validator:
