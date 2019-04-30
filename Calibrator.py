@@ -30,7 +30,7 @@ class Calibrator:
                         )[-self.model.max_steps - 2:-1]
         print("Starting opt...")
         guess_a = 200000
-        guess_b = 10
+        guess_b = 9
         best_a = guess_a
         best_b = guess_b
         lowest_error = 0.0
@@ -44,7 +44,8 @@ class Calibrator:
                     guess_a += random.choice([-step, step])
                 else:
                     guess_b += random.choice([-step, step])
-                population = [guess_a + guess_b * p for p in self.model.count_alive]
+                population = [
+                    1000 * (guess_a + guess_b * p) for p in self.model.count_alive]
                 error = sum(
                     (m - d) ** 2 for m, d in zip(population, self.data_population)
                 )
