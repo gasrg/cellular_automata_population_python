@@ -1,6 +1,6 @@
 import unittest
 
-import Model
+from cellular_automata_population_python import Model
 
 
 class TestModel(unittest.TestCase):

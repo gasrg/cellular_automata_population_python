@@ -3,9 +3,7 @@ import logging
 import easygui
 import matplotlib.pyplot as plt
 
-import Calibrator
-import Model
-import Validator
+from cellular_automata_population_python import Model, Validator, Calibrator
 
 
 class MainGUI:
@@ -47,6 +45,10 @@ class MainGUI:
         plt.show()
 
 
-if __name__ == "__main__":
+def main():
     gui = MainGUI()
     gui.ask()
+
+
+if __name__ == "__main__":
+    main()
